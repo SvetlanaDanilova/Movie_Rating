@@ -28,6 +28,8 @@ def load_data():
     url = 'https://drive.google.com/uc?export=view&id=1Azkk7zzqxPSBOfGR99JHuldNy1-ZD865'
     wget.download(url, zip_file)
 
+    print(zip_file)
+
     if zip_file.endswith("tar.gz"):
         tar = tarfile.open(zip_file, "r:gz")
     elif zip_file.endswith("tar"):
