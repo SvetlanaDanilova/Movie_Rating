@@ -8,5 +8,4 @@ wget
 nltk
 gensim
 torch
-sklearn
 IPython 
