@@ -1,11 +1,5 @@
 matplotlib
 numpy
-pandas
 streamlit
-scipy
 seaborn
 wget
-nltk
-gensim
-torch
-IPython 
