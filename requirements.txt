@@ -4,3 +4,11 @@ pandas
 streamlit
 scipy
 seaborn
+wget
+tarfile
+nltk
+gensim
+torch
+sklearn
+scikitplot
+IPython 
