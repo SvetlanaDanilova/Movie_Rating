@@ -4,3 +4,4 @@ streamlit
 seaborn
 wget
 nltk
+gensim
