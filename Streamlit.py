@@ -25,8 +25,11 @@ import matplotlib.pyplot as plt
 def load_data():
 
     zip_file = 'aclImdb_v1.tar.gz'
-    url = 'https://drive.google.com/uc?export=view&id=1Azkk7zzqxPSBOfGR99JHuldNy1-ZD865'
-    wget.download(url, zip_file)
+    data_status = os.path.exists('./' + zip_file)
+    
+    if data_status == False:
+        url = 'https://drive.google.com/uc?export=view&id=1Azkk7zzqxPSBOfGR99JHuldNy1-ZD865'
+        wget.download(url, zip_file)
 
     print(zip_file)
 
