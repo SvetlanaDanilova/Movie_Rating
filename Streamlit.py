@@ -33,7 +33,7 @@ def load_data():
 
     st.write(zip_file)
 
-    tar = tarfile.open(zip_file)
+    tar = tarfile.open(zip_file, 'r')
     tar.extractall()
     tar.close()
 
