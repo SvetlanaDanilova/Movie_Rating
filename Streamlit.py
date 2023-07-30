@@ -8,6 +8,8 @@ from matplotlib import rcParams
 
 import wget
 import tarfile
+import gzip
+import shutil
 
 from nltk.tokenize import WordPunctTokenizer
 import gensim.downloader as api
@@ -26,6 +28,13 @@ def load_data():
 
     zip_file = 'aclImdb_v1.tar.gz'
     data_status = os.path.exists('./' + zip_file)
+
+
+    with gzip.open(zip_file) as g:
+        with open('new_' + zip_file, 'wb') as f_out:
+            shutil.copyfileobj(g, f_out)
+
+    tarfile.open('new_' + zip_file, 'r:gz')
     
     if data_status == False:
         url = 'https://drive.google.com/uc?export=view&id=1Azkk7zzqxPSBOfGR99JHuldNy1-ZD865'
