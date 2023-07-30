@@ -33,10 +33,7 @@ def load_data():
 
     st.write(zip_file)
 
-    if zip_file.endswith("tar.gz"):
-        tar = tarfile.open(zip_file, "r:gz")
-    elif zip_file.endswith("tar"):
-        tar = tarfile.open(zip_file, "r:")
+    tar = tarfile.open(zip_file)
     tar.extractall()
     tar.close()
 
