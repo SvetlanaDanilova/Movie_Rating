@@ -28,13 +28,6 @@ def load_data():
 
     zip_file = 'aclImdb_v1.tar.gz'
     data_status = os.path.exists('./' + zip_file)
-
-
-    with gzip.open(zip_file) as g:
-        with open('new_' + zip_file, 'wb') as f_out:
-            shutil.copyfileobj(g, f_out)
-
-    tarfile.open('new_' + zip_file, 'r:gz')
     
     if data_status == False:
         url = 'https://drive.google.com/uc?export=view&id=1Azkk7zzqxPSBOfGR99JHuldNy1-ZD865'
@@ -42,7 +35,12 @@ def load_data():
 
     st.write(zip_file)
 
-    tar = tarfile.open(zip_file, 'r')
+    with gzip.open(zip_file) as g:
+        with open('new_' + zip_file, 'wb') as f_out:
+            shutil.copyfileobj(g, f_out)
+
+    tarfile.open('new_' + zip_file, 'r:gz')
+
     tar.extractall()
     tar.close()
 
