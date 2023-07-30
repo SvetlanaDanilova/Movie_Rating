@@ -5,7 +5,6 @@ streamlit
 scipy
 seaborn
 wget
-tarfile
 nltk
 gensim
 torch
