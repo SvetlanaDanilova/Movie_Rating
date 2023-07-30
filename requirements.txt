@@ -9,5 +9,5 @@ nltk
 gensim
 torch
 sklearn
-scikitplot
+scikitplot==1.0.2
 IPython 
