@@ -257,9 +257,19 @@ def get_prediction(rewiew, tokenizer, gensim_embedding_model, model_label, model
 
 def main():
 
-        st.title('Классификация отзывов')
+    st.title('Классификация отзывов')
 
-        tokenizer = WordPunctTokenizer()
+    tokenizer = WordPunctTokenizer()
+
+    with st.spinner('Скачивание предобученных эмбеддингов'):
+        gensim_embedding_model = api.load('glove-twitter-200')
+
+    if os.path.exists('model_label.pth') and os.path.exists('model_rating.pth'):
+        st.header('Загрузка моделей')
+        model_label = torch.load('model_label.pth')
+        model_rating = torch.load('model_rating.pth')
+            
+    else:
 
         st.header('Обработка данных')
     
@@ -271,12 +281,10 @@ def main():
             texts_test = tokenize(tokenizer, test_data)
     
         with st.spinner('Создание эмбеддингов'):
-            gensim_embedding_model = api.load('glove-twitter-200')
-            #torch.save(gensim_embedding_model, 'gensim_embedding_model.pth')
             X_train_emb = [text_to_average_embedding(text, tokenizer, gensim_embedding_model) for text in texts_train]
             X_test_emb = [text_to_average_embedding(text, tokenizer, gensim_embedding_model) for text in texts_test]
     
-        #st.success('Завершено')
+        st.success('Завершено')
     
         st.header('Модель классификации отзывов на позитивные и негативные')
     
@@ -293,7 +301,7 @@ def main():
     
             torch.save(model_label, 'model_label.pth')
     
-        #st.success('Завершено')
+        st.success('Завершено')
     
         fig2 = visualize_results(model_label, X_train_emb, X_test_emb, train_label, test_label, target_size=2)
         st.pyplot(fig2)
@@ -313,19 +321,19 @@ def main():
     
             torch.save(model_rating, 'model_rating.pth')
     
-        #st.success('Завершено')
+        st.success('Завершено')
     
         fig3 = visualize_results(model_rating, X_train_emb, X_test_emb, train_rating, test_rating, target_size=10)
         st.pyplot(fig3)
 
-        st.header('Введите отзыв на фильм')
-        with st.form(key='my_form'):
-            rewiew = st.text_input(label='')
-            submit_button = st.form_submit_button(label='Submit')
+    st.header('Введите отзыв на фильм')
+    with st.form(key='my_form'):
+        rewiew = st.text_input(label='')
+        submit_button = st.form_submit_button(label='Submit')
     
-            if submit_button:
-                st.write('The current movie title is', rewiew)
-                get_prediction(rewiew, tokenizer, gensim_embedding_model, model_label, model_rating)
+        if submit_button:
+            st.write('The current movie title is', rewiew)
+            get_prediction(rewiew, tokenizer, gensim_embedding_model, model_label, model_rating)
     
 
 if __name__ == "__main__":
