@@ -93,12 +93,19 @@ def text_to_average_embedding(text, tokenizer, gensim_embedding_model):
 
     return embedding_for_text
 
+def calculate_weights(train, target_size):
+    class_weights = class_weight.compute_class_weight(class_weight ='balanced', classes=np.unique(train), y=train)
+    if target_size > 2:
+        class_weights = list(class_weights[0:(target_size//2-1)]) + [0, 0] + list(class_weights[(target_size//2-1):])
+    class_weights = torch.tensor(class_weights,dtype=torch.float)
+    return class_weights
+
 def create_model(input_len, target_size):
     
     model = nn.Sequential(
-        nn.Linear(input_len, 2000),
+        nn.Linear(input_len, 1000),
         nn.ReLU(),
-        nn.Linear(2000, target_size)
+        nn.Linear(1000, target_size)
     )
 
     return model
@@ -274,11 +281,14 @@ def main():
     st.header('Модель классификации отзывов на позитивные и негативные')
 
     with st.spinner('Создание и обучение модели'):
-        model_label = create_model(len(X_train_emb[0]), target_size=2)
-
-        loss_function = nn.CrossEntropyLoss()
+        
+        target_size = max(train_label) + 1
+        class_weights = calculate_weights(train_label, target_size)
+        model_label = create_model(len(X_train_emb[0]), target_size)
+        
+        loss_function = nn.CrossEntropyLoss(weight=class_weights)
         opt = torch.optim.Adam(model_label.parameters(), lr=1e-3)
-    
+        
         model_label = train_model(model_label, opt, loss_function, X_train_emb, train_label, X_test_emb, test_label, n_iterations=5000)
 
     st.success('Завершено')
@@ -289,11 +299,14 @@ def main():
     st.header('Модель классификации выставленного рейтинга')
 
     with st.spinner('Создание и обучение модели'):
-        model_rating = create_model(len(X_train_emb[0]), target_size=10)
-
-        loss_function = nn.CrossEntropyLoss()
+        
+        target_size = max(train_rating) + 1
+        class_weights = calculate_weights(train_rating, target_size)
+        model_rating = create_model(len(X_train_emb[0]), target_size)
+        
+        loss_function = nn.CrossEntropyLoss(weight=class_weights)
         opt = torch.optim.Adam(model_rating.parameters(), lr=1e-3)
-    
+        
         model_rating = train_model(model_rating, opt, loss_function, X_train_emb, train_rating, X_test_emb, test_rating, n_iterations=5000)
 
     st.success('Завершено')
