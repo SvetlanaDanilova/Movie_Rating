@@ -40,7 +40,7 @@ def load_data():
     
     if data_status == False:
         f = open(zip_file, "r")
-        print(f.read())
+        st.write(f.read())
         #shutil.unpack_archive(zip_file, './')
         #tar = tarfile.open(zip_file, "r")
         #tar.extractall()
