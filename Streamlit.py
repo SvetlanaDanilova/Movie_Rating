@@ -255,9 +255,9 @@ def get_prediction(rewiew, tokenizer, gensim_embedding_model, model_label, model
 
 def main():
 
-    #sns.set()
-    #rcParams['figure.figsize'] = 10, 6
-    #np.random.seed(42)
+    if "visibility" not in st.session_state:
+        st.session_state.visibility = "visible"
+        st.session_state.disabled = False
 
     st.title('Классификация отзывов')
 
@@ -315,7 +315,11 @@ def main():
     st.pyplot(fig3)
 
     st.header('Введите отзыв на фильм')
-    rewiew = st.text_input('')
+    rewiew = st.text_input(
+                            '', 
+                            label_visibility=st.session_state.visibility,
+                            disabled=st.session_state.disabled
+                        )
     if rewiew:
         st.write('The current movie title is', rewiew)
         get_prediction(rewiew, tokenizer, gensim_embedding_model, model_label, model_rating)
