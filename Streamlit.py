@@ -171,10 +171,9 @@ def train_model(
             acc_score_val = accuracy_score(y_val_torch.cpu().numpy(), predictions_val.to('cpu').detach().numpy().argmax(axis=1))
             val_acc_history.append(acc_score_val)
 
-            if show_plots:
-                display.clear_output(wait=True)
-                fig1 = plot_train_process(train_loss_history, val_loss_history, train_acc_history, val_acc_history)
-                st.pyplot(fig1)
+    if show_plots:
+        fig1 = plot_train_process(train_loss_history, val_loss_history, train_acc_history, val_acc_history)
+        st.pyplot(fig1)
 
     return model
 
@@ -185,11 +184,13 @@ def plot_train_process(train_loss, val_loss, train_accuracy, val_accuracy, title
     axes[0].plot(train_loss, label='train')
     axes[0].plot(val_loss, label='validation')
     axes[0].legend()
+    axes[0].grid()
 
     axes[1].set_title(' '.join(['Validation accuracy', title_suffix]))
     axes[1].plot(train_accuracy, label='train')
     axes[1].plot(val_accuracy, label='validation')
     axes[1].legend()
+    axes[1].grid()
 
     return fig
 
@@ -229,6 +230,8 @@ def main():
 
     st.title('Классификация отзывов')
 
+    st.markdown('Обработка данных')
+
     with st.spinner('Загразка данных для обучения и валидации'):
         train_data, train_label, train_rating, test_data, test_label, test_rating = load_data()
 
@@ -242,6 +245,10 @@ def main():
         X_train_emb = [text_to_average_embedding(text, tokenizer, gensim_embedding_model) for text in texts_train]
         X_test_emb = [text_to_average_embedding(text, tokenizer, gensim_embedding_model) for text in texts_test]
 
+    st.success('Завершено')
+
+    st.markdown('Модель классификации отзывов на позитивные и негативные')
+
     with st.spinner('Создание и обучение модели'):
         model = create_model(len(X_train_emb[0]), target_size=2)
 
@@ -250,8 +257,25 @@ def main():
     
         model = train_model(model, opt, loss_function, X_train_emb, train_label, X_test_emb, test_label, n_iterations=5000)
 
+    st.success('Завершено')
+
     fig2 = visualize_results(model, X_train_emb, X_test_emb, train_label, test_label, target_size=2)
     st.pyplot(fig2)
+
+    st.markdown('Модель классификации выставленного рейтинга')
+
+    with st.spinner('Создание и обучение модели'):
+        model = create_model(len(X_train_emb[0]), target_size=10)
+
+        loss_function = nn.CrossEntropyLoss()
+        opt = torch.optim.Adam(model.parameters(), lr=1e-3)
+    
+        model = train_model(model, opt, loss_function, X_train_emb, train_rating, X_test_emb, test_rating, n_iterations=5000)
+
+    st.success('Завершено')
+
+    fig3 = visualize_results(model, X_train_emb, X_test_emb, train_rating, test_rating, target_size=10)
+    st.pyplot(fig3)
 
 
 if __name__ == "__main__":
