@@ -304,6 +304,7 @@ def main():
     st.header('Введите отзыв на фильм')
     rewiew = st.text_input('')
     if rewiew:
+        st.write('The current movie title is', rewiew)
         get_prediction(rewiew, tokenizer, gensim_embedding_model, model_label, model_rating)
     
 
