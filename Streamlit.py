@@ -223,9 +223,9 @@ def visualize_results(model, X_train, X_test, y_train, y_test, target_size):
 
 def main():
 
-    sns.set()
-    rcParams['figure.figsize'] = 10, 6
-    np.random.seed(42)
+    #sns.set()
+    #rcParams['figure.figsize'] = 10, 6
+    #np.random.seed(42)
 
     st.title('Классификация отзывов')
 
