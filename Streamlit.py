@@ -284,7 +284,7 @@ def main():
             X_train_emb = [text_to_average_embedding(text, tokenizer, gensim_embedding_model) for text in texts_train]
             X_test_emb = [text_to_average_embedding(text, tokenizer, gensim_embedding_model) for text in texts_test]
     
-        st.success('Завершено')
+        #st.success('Завершено')
     
         st.header('Модель классификации отзывов на позитивные и негативные')
     
@@ -301,7 +301,7 @@ def main():
     
             torch.save(model_label, 'model_label.pth')
     
-        st.success('Завершено')
+        #st.success('Завершено')
     
         fig2 = visualize_results(model_label, X_train_emb, X_test_emb, train_label, test_label, target_size=2)
         st.pyplot(fig2)
@@ -321,7 +321,7 @@ def main():
     
             torch.save(model_rating, 'model_rating.pth')
     
-        st.success('Завершено')
+        #st.success('Завершено')
     
         fig3 = visualize_results(model_rating, X_train_emb, X_test_emb, train_rating, test_rating, target_size=10)
         st.pyplot(fig3)
