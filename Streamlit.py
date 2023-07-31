@@ -259,58 +259,69 @@ def main():
 
     st.title('Классификация отзывов')
 
-    st.header('Обработка данных')
+    if os.path.exists('model_label.pth') and os.path.exists('model_rating.pth'):
+        st.header('Загрузка моделей')
+        model_label = torch.load('model_label.pth')
+        model_rating = torch.load('model_rating.pth')
 
-    with st.spinner('Загрузка данных'):
-        train_data, train_label, train_rating, test_data, test_label, test_rating = load_data()
+    else:
 
-    with st.spinner('Токенизация'):
-        tokenizer = WordPunctTokenizer()
-        texts_train = tokenize(tokenizer, train_data)
-        texts_test = tokenize(tokenizer, test_data)
-
-    with st.spinner('Создание эмбеддингов'):
-        gensim_embedding_model = api.load('glove-twitter-200')
-        X_train_emb = [text_to_average_embedding(text, tokenizer, gensim_embedding_model) for text in texts_train]
-        X_test_emb = [text_to_average_embedding(text, tokenizer, gensim_embedding_model) for text in texts_test]
-
-    st.success('Завершено')
-
-    st.header('Модель классификации отзывов на позитивные и негативные')
-
-    with st.spinner('Создание и обучение модели'):
-        
-        target_size = max(train_label) + 1
-        class_weights = calculate_weights(train_label, target_size)
-        model_label = create_model(len(X_train_emb[0]), target_size)
-        
-        loss_function = nn.CrossEntropyLoss(weight=class_weights)
-        opt = torch.optim.Adam(model_label.parameters(), lr=1e-3)
-        
-        model_label = train_model(model_label, opt, loss_function, X_train_emb, train_label, X_test_emb, test_label, n_iterations=5000)
-
-    st.success('Завершено')
-
-    fig2 = visualize_results(model_label, X_train_emb, X_test_emb, train_label, test_label, target_size=2)
-    st.pyplot(fig2)
-
-    st.header('Модель классификации выставленного рейтинга')
-
-    with st.spinner('Создание и обучение модели'):
-        
-        target_size = max(train_rating) + 1
-        class_weights = calculate_weights(train_rating, target_size)
-        model_rating = create_model(len(X_train_emb[0]), target_size)
-        
-        loss_function = nn.CrossEntropyLoss(weight=class_weights)
-        opt = torch.optim.Adam(model_rating.parameters(), lr=1e-3)
-        
-        model_rating = train_model(model_rating, opt, loss_function, X_train_emb, train_rating, X_test_emb, test_rating, n_iterations=5000)
-
-    st.success('Завершено')
-
-    fig3 = visualize_results(model_rating, X_train_emb, X_test_emb, train_rating, test_rating, target_size=10)
-    st.pyplot(fig3)
+        st.header('Обработка данных')
+    
+        with st.spinner('Загрузка данных'):
+            train_data, train_label, train_rating, test_data, test_label, test_rating = load_data()
+    
+        with st.spinner('Токенизация'):
+            tokenizer = WordPunctTokenizer()
+            texts_train = tokenize(tokenizer, train_data)
+            texts_test = tokenize(tokenizer, test_data)
+    
+        with st.spinner('Создание эмбеддингов'):
+            gensim_embedding_model = api.load('glove-twitter-200')
+            X_train_emb = [text_to_average_embedding(text, tokenizer, gensim_embedding_model) for text in texts_train]
+            X_test_emb = [text_to_average_embedding(text, tokenizer, gensim_embedding_model) for text in texts_test]
+    
+        st.success('Завершено')
+    
+        st.header('Модель классификации отзывов на позитивные и негативные')
+    
+        with st.spinner('Создание и обучение модели'):
+            
+            target_size = max(train_label) + 1
+            class_weights = calculate_weights(train_label, target_size)
+            model_label = create_model(len(X_train_emb[0]), target_size)
+            
+            loss_function = nn.CrossEntropyLoss(weight=class_weights)
+            opt = torch.optim.Adam(model_label.parameters(), lr=1e-3)
+            
+            model_label = train_model(model_label, opt, loss_function, X_train_emb, train_label, X_test_emb, test_label, n_iterations=5000)
+    
+            torch.save(model_label, 'model_label.pth')
+    
+        st.success('Завершено')
+    
+        fig2 = visualize_results(model_label, X_train_emb, X_test_emb, train_label, test_label, target_size=2)
+        st.pyplot(fig2)
+    
+        st.header('Модель классификации выставленного рейтинга')
+    
+        with st.spinner('Создание и обучение модели'):
+            
+            target_size = max(train_rating) + 1
+            class_weights = calculate_weights(train_rating, target_size)
+            model_rating = create_model(len(X_train_emb[0]), target_size)
+            
+            loss_function = nn.CrossEntropyLoss(weight=class_weights)
+            opt = torch.optim.Adam(model_rating.parameters(), lr=1e-3)
+            
+            model_rating = train_model(model_rating, opt, loss_function, X_train_emb, train_rating, X_test_emb, test_rating, n_iterations=5000)
+    
+            torch.save(model_rating, 'model_rating.pth')
+    
+        st.success('Завершено')
+    
+        fig3 = visualize_results(model_rating, X_train_emb, X_test_emb, train_rating, test_rating, target_size=10)
+        st.pyplot(fig3)
 
     st.header('Введите отзыв на фильм')
     with st.form(key='my_form'):
