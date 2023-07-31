@@ -230,7 +230,7 @@ def main():
 
     st.title('Классификация отзывов')
 
-    st.markdown('Обработка данных')
+    st.header('Обработка данных')
 
     with st.spinner('Загразка данных'):
         train_data, train_label, train_rating, test_data, test_label, test_rating = load_data()
@@ -247,7 +247,7 @@ def main():
 
     st.success('Завершено')
 
-    st.markdown('Модель классификации отзывов на позитивные и негативные')
+    st.header('Модель классификации отзывов на позитивные и негативные')
 
     with st.spinner('Создание и обучение модели'):
         model = create_model(len(X_train_emb[0]), target_size=2)
@@ -262,7 +262,7 @@ def main():
     fig2 = visualize_results(model, X_train_emb, X_test_emb, train_label, test_label, target_size=2)
     st.pyplot(fig2)
 
-    st.markdown('Модель классификации выставленного рейтинга')
+    st.header('Модель классификации выставленного рейтинга')
 
     with st.spinner('Создание и обучение модели'):
         model = create_model(len(X_train_emb[0]), target_size=10)
