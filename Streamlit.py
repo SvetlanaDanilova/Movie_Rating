@@ -255,7 +255,7 @@ def main():
 
     model = train_model(model, opt, loss_function, X_train_emb, train_label, X_test_emb, test_label, n_iterations=5000)
 
-    st.markdown('Рисуем ROC_AUC curve')
+    st.markdown('Рисуем Confusion matrix')
 
     fig2 = visualize_results(model, X_train_emb, X_test_emb, train_label, test_label, target_size=2)
     st.pyplot(fig2)
