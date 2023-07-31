@@ -312,13 +312,12 @@ def main():
     fig3 = visualize_results(model_rating, X_train_emb, X_test_emb, train_rating, test_rating, target_size=10)
     st.pyplot(fig3)
 
-    def proc():
-        pass
-
     st.header('Введите отзыв на фильм')
-    rewiew = st.text_input('', on_change=proc)
+    with st.form(key='my_form'):
+        rewiew = st.text_input(label='')
+        submit_button = st.form_submit_button(label='Submit')
 
-    if rewiew:
+    if submit_button:
         st.write('The current movie title is', rewiew)
         get_prediction(rewiew, tokenizer, gensim_embedding_model, model_label, model_rating)
     
