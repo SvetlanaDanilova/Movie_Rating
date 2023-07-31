@@ -267,7 +267,7 @@ def main():
         extract_tar()
 
     with st.spinner('Скачивание предобученных эмбеддингов'):
-        gensim_embedding_model = 'gensim_embedding_model.pth'
+        #gensim_embedding_model = 'gensim_embedding_model.pth'
 
         file = 'gensim_embedding_model.pth'
         data_status = os.path.exists('./' + file)
