@@ -272,7 +272,7 @@ def main():
     
         with st.spinner('Создание эмбеддингов'):
             gensim_embedding_model = api.load('glove-twitter-200')
-            torch.save(gensim_embedding_model, 'gensim_embedding_model.pth')
+            #torch.save(gensim_embedding_model, 'gensim_embedding_model.pth')
             X_train_emb = [text_to_average_embedding(text, tokenizer, gensim_embedding_model) for text in texts_train]
             X_test_emb = [text_to_average_embedding(text, tokenizer, gensim_embedding_model) for text in texts_test]
     
