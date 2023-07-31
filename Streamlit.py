@@ -219,6 +219,29 @@ def visualize_results(model, X_train, X_test, y_train, y_test, target_size):
 
     return fig
 
+def get_prediction(rewiew, tokenizer, gensim_embedding_model, model_label, model_rating):
+
+    rewiew = [rewiew]
+    data = tokenize(tokenizer, rewiew)
+    data_emb = [text_to_average_embedding(text, tokenizer, gensim_embedding_model) for text in data]
+    data_emb_torch = torch.Tensor(np.array(data_emb))
+
+    st.markdown('Rating')
+
+    res = model_label(data_emb_torch).detach().cpu().numpy().argmax(axis=1).item()
+    if res == 1:
+        label = 'pos'
+    if res == 0:
+        label = 'neg'
+
+    rating = model_rating(data_emb_torch).detach().cpu().numpy().argmax(axis=1).item() + 1
+
+    if label == 'pos' and rating <= 4 or label == 'neg' and rating >= 7:
+        st.markdown("It's complicated to analyse this rewiew")
+
+    st.markdown('Rewiew label is  ', label)
+    st.markdown('Rewiew rating is ', rating)
+
 
 def main():
 
@@ -275,6 +298,10 @@ def main():
     fig3 = visualize_results(model, X_train_emb, X_test_emb, train_rating, test_rating, target_size=10)
     st.pyplot(fig3)
 
+    st.header('Введите отзыв на фильм')
+    rewiew = st.text_input('', '')
+    get_prediction(rewiew, tokenizer, gensim_embedding_model, model_label, model_rating)
+    
 
 if __name__ == "__main__":
     main()
