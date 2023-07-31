@@ -292,7 +292,7 @@ def main():
         model_rating = create_model(len(X_train_emb[0]), target_size=10)
 
         loss_function = nn.CrossEntropyLoss()
-        opt = torch.optim.Adam(model.parameters(), lr=1e-3)
+        opt = torch.optim.Adam(model_rating.parameters(), lr=1e-3)
     
         model_rating = train_model(model_rating, opt, loss_function, X_train_emb, train_rating, X_test_emb, test_rating, n_iterations=5000)
 
