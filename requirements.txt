@@ -7,3 +7,5 @@ nltk
 gensim
 torch
 IPython 
+scikit-learn
+scikit-plot
