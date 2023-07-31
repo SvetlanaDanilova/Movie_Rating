@@ -24,20 +24,22 @@ import matplotlib.pyplot as plt
 #%matplotlib inline
 
 def extract_tar():
-    zip_file = 'aclImdb_v1.tar.gz'
-    data_status = os.path.exists('./' + zip_file)
+    with st.spinner('Распаковка архива с данными'):
+        
+        zip_file = 'aclImdb_v1.tar.gz'
+        data_status = os.path.exists('./' + zip_file)
+        
+        if data_status == False:
+            url = 'https://drive.google.com/uc?export=view&id=1Azkk7zzqxPSBOfGR99JHuldNy1-ZD865&confirm=t'
+            wget.download(url, zip_file)
     
-    if data_status == False:
-        url = 'https://drive.google.com/uc?export=view&id=1Azkk7zzqxPSBOfGR99JHuldNy1-ZD865&confirm=t'
-        wget.download(url, zip_file)
-
-    folder_name = 'aclImdb'
-    data_status = os.path.exists('./' + folder_name)
-    
-    if data_status == False:
-        tar = tarfile.open(zip_file)
-        tar.extractall()
-        tar.close()
+        folder_name = 'aclImdb'
+        data_status = os.path.exists('./' + folder_name)
+        
+        if data_status == False:
+            tar = tarfile.open(zip_file)
+            tar.extractall()
+            tar.close()
 
 def load_data():
 
