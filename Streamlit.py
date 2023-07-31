@@ -299,8 +299,9 @@ def main():
     st.pyplot(fig3)
 
     st.header('Введите отзыв на фильм')
-    rewiew = st.text_input('', '')
-    get_prediction(rewiew, tokenizer, gensim_embedding_model, model_label, model_rating)
+    rewiew = st.text_input('')
+    if rewiew:
+        get_prediction(rewiew, tokenizer, gensim_embedding_model, model_label, model_rating)
     
 
 if __name__ == "__main__":
