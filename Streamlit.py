@@ -24,6 +24,7 @@ import matplotlib.pyplot as plt
 #%matplotlib inline
 
 def extract_tar():
+    
     with st.spinner('Распаковка архива с данными'):
         
         zip_file = 'aclImdb_v1.tar.gz'
@@ -271,7 +272,7 @@ def main():
         url = 'https://drive.google.com/uc?export=view&id=1OGRq3ggUKYkpG-lfgivaFney2b75rJrX&confirm=t'
         wget.download(url, file)
 
-        #gensim_embedding_model = torch.load(file)
+        gensim_embedding_model = torch.load(file)
         
         #gensim_embedding_model = api.load('glove-twitter-200')
 
