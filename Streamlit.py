@@ -12,6 +12,8 @@ import tarfile
 from nltk.tokenize import WordPunctTokenizer
 import gensim.downloader as api
 
+from sklearn.utils import class_weight
+
 import torch
 from torch import nn
 
