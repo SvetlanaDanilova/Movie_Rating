@@ -96,9 +96,9 @@ def text_to_average_embedding(text, tokenizer, gensim_embedding_model):
 def create_model(input_len, target_size):
     
     model = nn.Sequential(
-        nn.Linear(input_len, 500),
+        nn.Linear(input_len, 2000),
         nn.ReLU(),
-        nn.Linear(500, target_size)
+        nn.Linear(2000, target_size)
     )
 
     return model
@@ -274,12 +274,12 @@ def main():
     st.header('Модель классификации отзывов на позитивные и негативные')
 
     with st.spinner('Создание и обучение модели'):
-        model = create_model(len(X_train_emb[0]), target_size=2)
+        model_label = create_model(len(X_train_emb[0]), target_size=2)
 
         loss_function = nn.CrossEntropyLoss()
-        opt = torch.optim.Adam(model.parameters(), lr=1e-3)
+        opt = torch.optim.Adam(model_label.parameters(), lr=1e-3)
     
-        model = train_model(model, opt, loss_function, X_train_emb, train_label, X_test_emb, test_label, n_iterations=5000)
+        model_label = train_model(model_label, opt, loss_function, X_train_emb, train_label, X_test_emb, test_label, n_iterations=5000)
 
     st.success('Завершено')
 
@@ -289,22 +289,22 @@ def main():
     st.header('Модель классификации выставленного рейтинга')
 
     with st.spinner('Создание и обучение модели'):
-        model = create_model(len(X_train_emb[0]), target_size=10)
+        model_rating = create_model(len(X_train_emb[0]), target_size=10)
 
         loss_function = nn.CrossEntropyLoss()
         opt = torch.optim.Adam(model.parameters(), lr=1e-3)
     
-        model = train_model(model, opt, loss_function, X_train_emb, train_rating, X_test_emb, test_rating, n_iterations=5000)
+        model_rating = train_model(model, opt, loss_function, X_train_emb, train_rating, X_test_emb, test_rating, n_iterations=5000)
 
     st.success('Завершено')
 
-    fig3 = visualize_results(model, X_train_emb, X_test_emb, train_rating, test_rating, target_size=10)
+    fig3 = visualize_results(model_rating, X_train_emb, X_test_emb, train_rating, test_rating, target_size=10)
     st.pyplot(fig3)
 
     st.header('Введите отзыв на фильм')
     rewiew = st.text_input('')
-    st.write('The current rewiew is', rewiew)
-    get_prediction(rewiew, tokenizer, gensim_embedding_model, model_label, model_rating)
+    if rewiew:
+        get_prediction(rewiew, tokenizer, gensim_embedding_model, model_label, model_rating)
     
 
 if __name__ == "__main__":
