@@ -23,8 +23,7 @@ from IPython import display
 import matplotlib.pyplot as plt
 #%matplotlib inline
 
-def load_data():
-
+def extract_tar():
     zip_file = 'aclImdb_v1.tar.gz'
     data_status = os.path.exists('./' + zip_file)
     
@@ -39,6 +38,10 @@ def load_data():
         tar = tarfile.open(zip_file)
         tar.extractall()
         tar.close()
+
+def load_data():
+
+    folder_name = 'aclImdb'
 
     train_data = []
     test_data = []
@@ -259,12 +262,14 @@ def main():
 
     tokenizer = WordPunctTokenizer()
 
+    extract_tar()
+
     with st.spinner('Скачивание предобученных эмбеддингов'):
         file = 'gensim_embedding_model.pth'
         url = 'https://drive.google.com/uc?export=view&id=1OGRq3ggUKYkpG-lfgivaFney2b75rJrX&confirm=t'
         wget.download(url, file)
 
-        gensim_embedding_model = torch.load(file)
+        #gensim_embedding_model = torch.load(file)
         
         #gensim_embedding_model = api.load('glove-twitter-200')
 
