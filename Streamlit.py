@@ -229,24 +229,24 @@ def main():
 
     st.title('Классификация отзывов')
 
-    #st.markdown('Загразка данных для обучения и валидации')
+    st.markdown('Загразка данных для обучения и валидации')
 
     train_data, train_label, train_rating, test_data, test_label, test_rating = load_data()
 
-    #st.markdown('Токенизация')
+    st.markdown('Токенизация')
 
     tokenizer = WordPunctTokenizer()
     texts_train = tokenize(tokenizer, train_data)
     texts_test = tokenize(tokenizer, test_data)
 
-    #st.markdown('Создание эмбеддингов')
+    st.markdown('Создание эмбеддингов')
 
     gensim_embedding_model = api.load('glove-twitter-200')
 
     X_train_emb = [text_to_average_embedding(text, tokenizer, gensim_embedding_model) for text in texts_train]
     X_test_emb = [text_to_average_embedding(text, tokenizer, gensim_embedding_model) for text in texts_test]
 
-    #st.markdown('Создание и обучение модели')
+    st.markdown('Создание и обучение модели')
 
     model = create_model(len(X_train_emb[0]), target_size=2)
 
@@ -255,7 +255,7 @@ def main():
 
     model = train_model(model, opt, loss_function, X_train_emb, train_label, X_test_emb, test_label, n_iterations=5000)
 
-    #st.markdown('Рисуем ROC_AUC curve')
+    st.markdown('Рисуем ROC_AUC curve')
 
     fig2 = visualize_results(model, X_train_emb, X_test_emb, train_label, test_label, target_size=2)
     st.pyplot(fig2)
