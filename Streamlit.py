@@ -204,7 +204,10 @@ def visualize_results(model, X_train, X_test, y_train, y_test, target_size):
 
     proba = model(X_test).detach().cpu().numpy().argmax(axis=1)
 
-    fig, ax = plt.subplots()
+    fig_size = (target_size - 5) ** 2 / 3
+
+    fig, ax = plt.subplots(figsize=(fig_size, fig_size))
+    
     cm = confusion_matrix(y_test, proba, labels=np.linspace(0, target_size-1, num=target_size, dtype=int), normalize='true')
     disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=np.linspace(0, target_size-1, num=target_size, dtype=int))
     disp.plot(ax=ax, cmap='Blues')
