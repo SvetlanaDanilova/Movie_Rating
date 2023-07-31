@@ -260,7 +260,13 @@ def main():
     tokenizer = WordPunctTokenizer()
 
     with st.spinner('Скачивание предобученных эмбеддингов'):
-        gensim_embedding_model = api.load('glove-twitter-200')
+        file = 'gensim_embedding_model.pth'
+        url = 'https://drive.google.com/uc?export=view&id=1OGRq3ggUKYkpG-lfgivaFney2b75rJrX&confirm=t'
+        wget.download(url, file)
+
+        gensim_embedding_model = torch.load(file)
+        
+        #gensim_embedding_model = api.load('glove-twitter-200')
 
     if os.path.exists('model_label.pth') and os.path.exists('model_rating.pth'):
         st.header('Загрузка моделей')
