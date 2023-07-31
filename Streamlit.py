@@ -35,14 +35,16 @@ def load_data():
 
     st.write(zip_file)
 
-    with gzip.open(zip_file) as g:
-        with open('new_' + zip_file, 'wb') as f_out:
-            shutil.copyfileobj(g, f_out)
-
-    tarfile.open('new_' + zip_file, 'r:gz')
-
-    tar.extractall()
-    tar.close()
+    folder_name = 'aclImdb'
+    data_status = os.path.exists('./' + folder_name)
+    
+    if data_status == False:
+        if zip_file.endswith("tar.gz"):
+            tar = tarfile.open(zip_file, "r:gz")
+        elif zip_file.endswith("tar"):
+            tar = tarfile.open(zip_file, "r:")
+        tar.extractall()
+        tar.close()
 
     folder_name = 'aclImdb'
 
