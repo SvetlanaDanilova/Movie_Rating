@@ -257,17 +257,9 @@ def get_prediction(rewiew, tokenizer, gensim_embedding_model, model_label, model
 
 def main():
 
-    st.title('Классификация отзывов')
+        st.title('Классификация отзывов')
 
-    tokenizer = WordPunctTokenizer()
-
-    if os.path.exists('model_label.pth') and os.path.exists('model_rating.pth') and os.path.exists('gensim_embedding_model.pth'):
-        st.header('Загрузка моделей')
-        model_label = torch.load('model_label.pth')
-        model_rating = torch.load('model_rating.pth')
-        gensim_embedding_model = torch.load('gensim_embedding_model.pth')
-
-    else:
+        tokenizer = WordPunctTokenizer()
 
         st.header('Обработка данных')
     
@@ -326,14 +318,14 @@ def main():
         fig3 = visualize_results(model_rating, X_train_emb, X_test_emb, train_rating, test_rating, target_size=10)
         st.pyplot(fig3)
 
-    st.header('Введите отзыв на фильм')
-    with st.form(key='my_form'):
-        rewiew = st.text_input(label='')
-        submit_button = st.form_submit_button(label='Submit')
-
-        if submit_button:
-            st.write('The current movie title is', rewiew)
-            get_prediction(rewiew, tokenizer, gensim_embedding_model, model_label, model_rating)
+        st.header('Введите отзыв на фильм')
+        with st.form(key='my_form'):
+            rewiew = st.text_input(label='')
+            submit_button = st.form_submit_button(label='Submit')
+    
+            if submit_button:
+                st.write('The current movie title is', rewiew)
+                get_prediction(rewiew, tokenizer, gensim_embedding_model, model_label, model_rating)
     
 
 if __name__ == "__main__":
