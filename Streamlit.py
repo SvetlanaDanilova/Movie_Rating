@@ -261,13 +261,11 @@ def main():
 
     tokenizer = WordPunctTokenizer()
 
-    with st.spinner('Скачивание предобученной эмбеддинговой модели'):
-        gensim_embedding_model = api.load('glove-twitter-200')
-
-    if os.path.exists('model_label.pth') and os.path.exists('model_rating.pth'):
+    if os.path.exists('model_label.pth') and os.path.exists('model_rating.pth') and os.path.exists('gensim_embedding_model.pth'):
         st.header('Загрузка моделей')
         model_label = torch.load('model_label.pth')
         model_rating = torch.load('model_rating.pth')
+        gensim_embedding_model = torch.load('gensim_embedding_model.pth')
 
     else:
 
@@ -281,6 +279,8 @@ def main():
             texts_test = tokenize(tokenizer, test_data)
     
         with st.spinner('Создание эмбеддингов'):
+            gensim_embedding_model = api.load('glove-twitter-200')
+            torch.save(gensim_embedding_model, 'gensim_embedding_model.pth')
             X_train_emb = [text_to_average_embedding(text, tokenizer, gensim_embedding_model) for text in texts_train]
             X_test_emb = [text_to_average_embedding(text, tokenizer, gensim_embedding_model) for text in texts_test]
     
