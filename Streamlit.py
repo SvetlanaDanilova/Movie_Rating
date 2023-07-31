@@ -39,7 +39,9 @@ def load_data():
     data_status = os.path.exists('./' + folder_name)
     
     if data_status == False:
-        shutil.unpack_archive(zip_file, './')
+        f = open(zip_file, "r")
+        print(f.read())
+        #shutil.unpack_archive(zip_file, './')
         #tar = tarfile.open(zip_file, "r")
         #tar.extractall()
         #tar.close()
