@@ -283,7 +283,7 @@ def main():
 
     st.success('Завершено')
 
-    fig2 = visualize_results(model, X_train_emb, X_test_emb, train_label, test_label, target_size=2)
+    fig2 = visualize_results(model_label, X_train_emb, X_test_emb, train_label, test_label, target_size=2)
     st.pyplot(fig2)
 
     st.header('Модель классификации выставленного рейтинга')
@@ -294,7 +294,7 @@ def main():
         loss_function = nn.CrossEntropyLoss()
         opt = torch.optim.Adam(model.parameters(), lr=1e-3)
     
-        model_rating = train_model(model, opt, loss_function, X_train_emb, train_rating, X_test_emb, test_rating, n_iterations=5000)
+        model_rating = train_model(model_rating, opt, loss_function, X_train_emb, train_rating, X_test_emb, test_rating, n_iterations=5000)
 
     st.success('Завершено')
 
