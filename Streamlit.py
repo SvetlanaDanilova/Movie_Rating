@@ -33,18 +33,13 @@ def load_data():
         url = 'https://drive.google.com/uc?export=view&id=1Azkk7zzqxPSBOfGR99JHuldNy1-ZD865&confirm=t'
         wget.download(url, zip_file)
 
-    st.write(zip_file)
-
     folder_name = 'aclImdb'
     data_status = os.path.exists('./' + folder_name)
     
     if data_status == False:
-        f = open(zip_file, "r")
-        st.write(f.read())
-        #shutil.unpack_archive(zip_file, './')
-        #tar = tarfile.open(zip_file, "r")
-        #tar.extractall()
-        #tar.close()
+        tar = tarfile.open(zip_file, "r")
+        tar.extractall()
+        tar.close()
 
     folder_name = 'aclImdb'
 
