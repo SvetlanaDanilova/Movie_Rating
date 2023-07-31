@@ -317,9 +317,9 @@ def main():
         rewiew = st.text_input(label='')
         submit_button = st.form_submit_button(label='Submit')
 
-    if submit_button:
-        st.write('The current movie title is', rewiew)
-        get_prediction(rewiew, tokenizer, gensim_embedding_model, model_label, model_rating)
+        if submit_button:
+            st.write('The current movie title is', rewiew)
+            get_prediction(rewiew, tokenizer, gensim_embedding_model, model_label, model_rating)
     
 
 if __name__ == "__main__":
