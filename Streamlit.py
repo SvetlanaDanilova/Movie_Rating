@@ -39,9 +39,10 @@ def load_data():
     data_status = os.path.exists('./' + folder_name)
     
     if data_status == False:
-        tar = tarfile.open(zip_file, "r")
-        tar.extractall()
-        tar.close()
+        shutil.unpack_archive(zip_file, './')
+        #tar = tarfile.open(zip_file, "r")
+        #tar.extractall()
+        #tar.close()
 
     folder_name = 'aclImdb'
 
