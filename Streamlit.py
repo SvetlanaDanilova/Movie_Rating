@@ -256,7 +256,7 @@ def main():
 
     st.header('Обработка данных')
 
-    with st.spinner('Загразка данных'):
+    with st.spinner('Загрузка данных'):
         train_data, train_label, train_rating, test_data, test_label, test_rating = load_data()
 
     with st.spinner('Токенизация'):
