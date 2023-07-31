@@ -229,33 +229,26 @@ def main():
 
     st.title('Классификация отзывов')
 
-    st.markdown('Загразка данных для обучения и валидации')
+    with st.spinner('Загразка данных для обучения и валидации'):
+        train_data, train_label, train_rating, test_data, test_label, test_rating = load_data()
 
-    train_data, train_label, train_rating, test_data, test_label, test_rating = load_data()
+    with st.spinner('Токенизация'):
+        tokenizer = WordPunctTokenizer()
+        texts_train = tokenize(tokenizer, train_data)
+        texts_test = tokenize(tokenizer, test_data)
 
-    st.markdown('Токенизация')
+    with st.spinner('Создание эмбеддингов'):
+        gensim_embedding_model = api.load('glove-twitter-200')
+        X_train_emb = [text_to_average_embedding(text, tokenizer, gensim_embedding_model) for text in texts_train]
+        X_test_emb = [text_to_average_embedding(text, tokenizer, gensim_embedding_model) for text in texts_test]
 
-    tokenizer = WordPunctTokenizer()
-    texts_train = tokenize(tokenizer, train_data)
-    texts_test = tokenize(tokenizer, test_data)
+    with st.spinner('Создание и обучение модели'):
+        model = create_model(len(X_train_emb[0]), target_size=2)
 
-    st.markdown('Создание эмбеддингов')
-
-    gensim_embedding_model = api.load('glove-twitter-200')
-
-    X_train_emb = [text_to_average_embedding(text, tokenizer, gensim_embedding_model) for text in texts_train]
-    X_test_emb = [text_to_average_embedding(text, tokenizer, gensim_embedding_model) for text in texts_test]
-
-    st.markdown('Создание и обучение модели')
-
-    model = create_model(len(X_train_emb[0]), target_size=2)
-
-    loss_function = nn.CrossEntropyLoss()
-    opt = torch.optim.Adam(model.parameters(), lr=1e-3)
-
-    model = train_model(model, opt, loss_function, X_train_emb, train_label, X_test_emb, test_label, n_iterations=5000)
-
-    st.markdown('Рисуем Confusion matrix')
+        loss_function = nn.CrossEntropyLoss()
+        opt = torch.optim.Adam(model.parameters(), lr=1e-3)
+    
+        model = train_model(model, opt, loss_function, X_train_emb, train_label, X_test_emb, test_label, n_iterations=5000)
 
     fig2 = visualize_results(model, X_train_emb, X_test_emb, train_label, test_label, target_size=2)
     st.pyplot(fig2)
