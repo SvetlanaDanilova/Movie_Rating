@@ -232,7 +232,7 @@ def main():
 
     st.markdown('Обработка данных')
 
-    with st.spinner('Загразка данных для обучения и валидации'):
+    with st.spinner('Загразка данных'):
         train_data, train_label, train_rating, test_data, test_label, test_rating = load_data()
 
     with st.spinner('Токенизация'):
