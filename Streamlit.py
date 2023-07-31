@@ -257,10 +257,6 @@ def get_prediction(rewiew, tokenizer, gensim_embedding_model, model_label, model
 
 def main():
 
-    if "visibility" not in st.session_state:
-        st.session_state.visibility = "visible"
-        st.session_state.disabled = False
-
     st.title('Классификация отзывов')
 
     st.header('Обработка данных')
@@ -315,6 +311,10 @@ def main():
 
     fig3 = visualize_results(model_rating, X_train_emb, X_test_emb, train_rating, test_rating, target_size=10)
     st.pyplot(fig3)
+
+    if "visibility" not in st.session_state:
+        st.session_state.visibility = "visible"
+        st.session_state.disabled = False
 
     st.header('Введите отзыв на фильм')
     rewiew = st.text_input(
