@@ -312,16 +312,12 @@ def main():
     fig3 = visualize_results(model_rating, X_train_emb, X_test_emb, train_rating, test_rating, target_size=10)
     st.pyplot(fig3)
 
-    if "visibility" not in st.session_state:
-        st.session_state.visibility = "visible"
-        st.session_state.disabled = False
+    def proc():
+        pass
 
     st.header('Введите отзыв на фильм')
-    rewiew = st.text_input(
-                            '', 
-                            label_visibility=st.session_state.visibility,
-                            disabled=st.session_state.disabled
-                        )
+    rewiew = st.text_input('', on_change=proc)
+
     if rewiew:
         st.write('The current movie title is', rewiew)
         get_prediction(rewiew, tokenizer, gensim_embedding_model, model_label, model_rating)
