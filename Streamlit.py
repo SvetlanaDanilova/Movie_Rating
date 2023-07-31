@@ -237,9 +237,7 @@ def get_prediction(rewiew, tokenizer, gensim_embedding_model, model_label, model
     data = tokenize(tokenizer, rewiew)
     data_emb = [text_to_average_embedding(text, tokenizer, gensim_embedding_model) for text in data]
     data_emb_torch = torch.Tensor(np.array(data_emb))
-
-    st.markdown('Rating')
-
+    
     res = model_label(data_emb_torch).detach().cpu().numpy().argmax(axis=1).item()
     if res == 1:
         label = 'pos'
@@ -332,7 +330,6 @@ def main():
         submit_button = st.form_submit_button(label='Submit')
     
         if submit_button:
-            st.write('The current movie title is', rewiew)
             get_prediction(rewiew, tokenizer, gensim_embedding_model, model_label, model_rating)
     
 
