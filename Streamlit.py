@@ -270,7 +270,7 @@ def main():
         gensim_embedding_model = 'gensim_embedding_model.pth'
 
         file = 'gensim_embedding_model.pth'
-        data_status = os.path.exists('./' + folder_name)
+        data_status = os.path.exists('./' + file)
             
         if not data_status:
                 url = 'https://drive.google.com/uc?export=view&id=1OGRq3ggUKYkpG-lfgivaFney2b75rJrX&confirm=t'
