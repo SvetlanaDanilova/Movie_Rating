@@ -251,8 +251,8 @@ def get_prediction(rewiew, tokenizer, gensim_embedding_model, model_label, model
     if label == 'pos' and rating <= 4 or label == 'neg' and rating >= 7:
         st.markdown("It's complicated to analyse this rewiew")
 
-    st.markdown('Rewiew label is  ', label)
-    st.markdown('Rewiew rating is ', rating)
+    st.markdown('Rewiew label is  ' + label)
+    st.markdown('Rewiew rating is ' + str(rating))
 
 
 def main():
