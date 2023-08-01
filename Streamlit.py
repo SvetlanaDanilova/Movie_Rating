@@ -24,13 +24,14 @@ import matplotlib.pyplot as plt
 #%matplotlib inline
 
 def extract_tar():
-        
+
     zip_file = 'aclImdb_v1.tar.gz'
     data_status = os.path.exists('./' + zip_file)
         
     if data_status == False:
+        #https://drive.google.com/file/d/1Azkk7zzqxPSBOfGR99JHuldNy1-ZD865/view?usp=drive_link
         #https://drive.google.com/file/d/1-NktlcIEoQP9sgNeiuQf1vXnLbdigpr3/view?usp=sharing
-        url = 'https://drive.google.com/uc?export=view&id=1-NktlcIEoQP9sgNeiuQf1vXnLbdigpr3&confirm=t'
+        url = 'https://drive.google.com/uc?export=view&id=1Azkk7zzqxPSBOfGR99JHuldNy1-ZD865&confirm=t'
         wget.download(url, zip_file)
     
     folder_name = 'aclImdb'
