@@ -29,7 +29,8 @@ def extract_tar():
     data_status = os.path.exists('./' + zip_file)
         
     if data_status == False:
-        url = 'https://drive.google.com/uc?export=view&id=1Azkk7zzqxPSBOfGR99JHuldNy1-ZD865&confirm=t'
+        №https://drive.google.com/file/d/1-NktlcIEoQP9sgNeiuQf1vXnLbdigpr3/view?usp=sharing
+        url = 'https://drive.google.com/uc?export=view&id=1-NktlcIEoQP9sgNeiuQf1vXnLbdigpr3&confirm=t'
         wget.download(url, zip_file)
     
     folder_name = 'aclImdb'
@@ -267,7 +268,12 @@ def main():
         extract_tar()
 
     with st.spinner('Скачивание предобученных эмбеддингов'):
-        gensim_embedding_model = api.load('glove-twitter-50')
+        folder_name = 'aclImdb/'
+        file = 'gensim_embedding_model.pth'
+        path = folder_name + file
+        gensim_embedding_model = torch.load(path)
+
+        #gensim_embedding_model = api.load('glove-twitter-50')
 
     if os.path.exists('model_label.pth') and os.path.exists('model_rating.pth'):
         st.header('Загрузка моделей')
