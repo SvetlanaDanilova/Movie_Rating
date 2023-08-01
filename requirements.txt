@@ -9,5 +9,4 @@ torch
 IPython 
 scikit-learn
 scikit-plot
-shutil
 rarfile
