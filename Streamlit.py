@@ -8,6 +8,7 @@ from matplotlib import rcParams
 
 import wget
 import tarfile
+import patoolib
 
 from nltk.tokenize import WordPunctTokenizer
 import gensim.downloader as api
@@ -25,22 +26,21 @@ import matplotlib.pyplot as plt
 
 def extract_tar():
 
-    zip_file = 'aclImdb_v1.tar.gz'
+    zip_file = 'aclImdb_v1.rar'
     data_status = os.path.exists('./' + zip_file)
         
     if data_status == False:
-        #https://drive.google.com/file/d/1Azkk7zzqxPSBOfGR99JHuldNy1-ZD865/view?usp=drive_link
-        #https://drive.google.com/file/d/1-NktlcIEoQP9sgNeiuQf1vXnLbdigpr3/view?usp=sharing
-        url = 'https://drive.google.com/uc?export=view&id=1Azkk7zzqxPSBOfGR99JHuldNy1-ZD865&confirm=t'
+        url = 'https://drive.google.com/uc?export=view&id=1DuQZ1RCdkGPUYUNA9eWiHsK_8DsoBIRt&confirm=t'
         wget.download(url, zip_file)
     
     folder_name = 'aclImdb'
     data_status = os.path.exists('./' + folder_name)
         
     if data_status == False:
-        tar = tarfile.open(zip_file)
-        tar.extractall()
-        tar.close()
+        #tar = tarfile.open(zip_file)
+        #tar.extractall()
+        #tar.close()
+        patoolib.extract_archive(zip_file)
 
 def load_data():
 
