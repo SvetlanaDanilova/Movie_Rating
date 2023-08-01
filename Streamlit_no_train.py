@@ -76,6 +76,8 @@ def get_prediction(rewiew, tokenizer, gensim_embedding_model, model_label, model
 
 def main():
 
+    st.title('Rewiew classification')
+
     st.header('Loading data')
 
     tokenizer, gensim_embedding_model, model_label, model_rating = load_data()
