@@ -273,14 +273,9 @@ def main():
             return tokenizer, gensim_embedding_model
 
     tokenizer, gensim_embedding_model = loading()
-
-    if os.path.exists('model_label.pth') and os.path.exists('model_rating.pth'):
-        st.header('Загрузка моделей')
-        model_label = torch.load('model_label.pth')
-        model_rating = torch.load('model_rating.pth')
             
     @st.cache_data
-    def model_training():
+    def model_training(tokenizer, gensim_embedding_model):
 
         st.header('Обработка данных')
     
