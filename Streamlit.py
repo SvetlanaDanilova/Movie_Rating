@@ -7,7 +7,7 @@ import seaborn as sns
 from matplotlib import rcParams
 
 import wget
-import rarfile
+import tarfile
 
 from nltk.tokenize import WordPunctTokenizer
 import gensim.downloader as api
@@ -25,7 +25,7 @@ import matplotlib.pyplot as plt
 
 def extract_tar():
 
-    zip_file = 'aclImdb_v1.rar'
+    zip_file = 'aclImdb_v1.tar.gz'
     data_status = os.path.exists('./' + zip_file)
         
     if data_status == False:
@@ -36,11 +36,9 @@ def extract_tar():
     data_status = os.path.exists('./' + folder_name)
         
     if data_status == False:
-        #tar = tarfile.open(zip_file)
-        #tar.extractall()
-        #tar.close()
-        with rarfile.RarFile(zip_file) as rf:
-            rf.extractall('./')
+        tar = tarfile.open(zip_file)
+        tar.extractall()
+        tar.close()
 
 def load_data():
 
