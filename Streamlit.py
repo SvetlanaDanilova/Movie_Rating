@@ -276,6 +276,8 @@ def main():
     
             gensim_embedding_model = api.load('glove-twitter-200')
 
+    loading()
+
     if os.path.exists('model_label.pth') and os.path.exists('model_rating.pth'):
         st.header('Загрузка моделей')
         model_label = torch.load('model_label.pth')
