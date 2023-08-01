@@ -9,4 +9,3 @@ torch
 IPython 
 scikit-learn
 scikit-plot
-rarfile
