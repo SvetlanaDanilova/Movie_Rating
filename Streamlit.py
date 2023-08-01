@@ -266,13 +266,15 @@ def main():
     with st.spinner('Распаковка архива с данными'):
         extract_tar()
 
-    with st.spinner('Скачивание предобученных эмбеддингов'):
-        #folder_name = 'aclImdb/'
-        #file = 'gensim_embedding_model.pth'
-        #path = folder_name + file
-        #gensim_embedding_model = torch.load(path)
-
-        gensim_embedding_model = api.load('glove-twitter-200')
+    @st.cache
+    def loading():
+        with st.spinner('Скачивание предобученных эмбеддингов'):
+            #folder_name = 'aclImdb/'
+            #file = 'gensim_embedding_model.pth'
+            #path = folder_name + file
+            #gensim_embedding_model = torch.load(path)
+    
+            gensim_embedding_model = api.load('glove-twitter-200')
 
     if os.path.exists('model_label.pth') and os.path.exists('model_rating.pth'):
         st.header('Загрузка моделей')
