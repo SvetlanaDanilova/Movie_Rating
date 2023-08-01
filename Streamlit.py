@@ -7,7 +7,7 @@ import seaborn as sns
 from matplotlib import rcParams
 
 import wget
-import tarfile
+import rarfile
 
 from nltk.tokenize import WordPunctTokenizer
 import gensim.downloader as api
@@ -39,7 +39,8 @@ def extract_tar():
         #tar = tarfile.open(zip_file)
         #tar.extractall()
         #tar.close()
-        shutil.unpack_archive(zip_file, './', 'rar')
+        with rarfile.RarFile(zip_file) as rf:
+            rf.extractall()
 
 def load_data():
 
