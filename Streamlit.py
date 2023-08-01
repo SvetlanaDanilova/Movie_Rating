@@ -261,23 +261,18 @@ def main():
 
     st.title('Классификация отзывов')
 
-    tokenizer = WordPunctTokenizer()
-    
-    with st.spinner('Распаковка архива с данными'):
-        extract_tar()
-
-    @st.cache
+    @st.cache_data
     def loading():
-        with st.spinner('Скачивание предобученных эмбеддингов'):
-            #folder_name = 'aclImdb/'
-            #file = 'gensim_embedding_model.pth'
-            #path = folder_name + file
-            #gensim_embedding_model = torch.load(path)
+        tokenizer = WordPunctTokenizer()
     
+        with st.spinner('Распаковка архива с данными'):
+            extract_tar()
+            
+        with st.spinner('Скачивание предобученных эмбеддингов'):  
             gensim_embedding_model = api.load('glove-twitter-200')
-            return gensim_embedding_model
+            return tokenizer, gensim_embedding_model
 
-    gensim_embedding_model = loading()
+    tokenizer, gensim_embedding_model = loading()
 
     if os.path.exists('model_label.pth') and os.path.exists('model_rating.pth'):
         st.header('Загрузка моделей')
