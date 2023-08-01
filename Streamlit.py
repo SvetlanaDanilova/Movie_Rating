@@ -29,7 +29,7 @@ def extract_tar():
     data_status = os.path.exists('./' + zip_file)
         
     if data_status == False:
-        №https://drive.google.com/file/d/1-NktlcIEoQP9sgNeiuQf1vXnLbdigpr3/view?usp=sharing
+        #https://drive.google.com/file/d/1-NktlcIEoQP9sgNeiuQf1vXnLbdigpr3/view?usp=sharing
         url = 'https://drive.google.com/uc?export=view&id=1-NktlcIEoQP9sgNeiuQf1vXnLbdigpr3&confirm=t'
         wget.download(url, zip_file)
     
