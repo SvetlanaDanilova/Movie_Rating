@@ -40,7 +40,7 @@ def extract_tar():
         #tar.extractall()
         #tar.close()
         with rarfile.RarFile(zip_file) as rf:
-            rf.extractall()
+            rf.extractall('./')
 
 def load_data():
 
