@@ -279,7 +279,8 @@ def main():
         model_label = torch.load('model_label.pth')
         model_rating = torch.load('model_rating.pth')
             
-    else:
+    @st.cache_data
+    def model_training():
 
         st.header('Обработка данных')
     
@@ -335,6 +336,10 @@ def main():
     
         fig3 = visualize_results(model_rating, X_train_emb, X_test_emb, train_rating, test_rating, target_size=10)
         st.pyplot(fig3)
+
+        return model_label, model_rating
+
+    model_label, model_rating = model_training()
 
     st.header('Введите отзыв на фильм')
     with st.form(key='my_form'):
