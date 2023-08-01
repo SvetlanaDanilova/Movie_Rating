@@ -264,7 +264,7 @@ def main():
 
     st.title('Классификация отзывов')
 
-    @st.cache(suppress_st_warning=True)
+    @st.cache_resource(suppress_st_warning=True)
     def model_training():
 
         tokenizer = WordPunctTokenizer()
