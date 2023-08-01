@@ -262,37 +262,37 @@ def get_prediction(rewiew, tokenizer, gensim_embedding_model, model_label, model
 
 def main():
 
-    st.title('Классификация отзывов')
+    st.title('Rewiew classification')
 
     @st.cache_resource()
     def model_training():
 
         tokenizer = WordPunctTokenizer()
     
-        with st.spinner('Распаковка архива с данными'):
+        with st.spinner('Extracting data archive'):
             extract_tar()
             
-        with st.spinner('Скачивание предобученных эмбеддингов'):  
+        with st.spinner('Loading embedding model'):  
             gensim_embedding_model = api.load('glove-twitter-200')
 
-        st.header('Обработка данных')
+        st.header('Data processing')
     
         with st.spinner('Загрузка данных'):
             train_data, train_label, train_rating, test_data, test_label, test_rating = load_data()
     
-        with st.spinner('Токенизация'):
+        with st.spinner('Tokenizing'):
             texts_train = tokenize(tokenizer, train_data)
             texts_test = tokenize(tokenizer, test_data)
     
-        with st.spinner('Создание эмбеддингов'):
+        with st.spinner('Creating embeddings'):
             X_train_emb = [text_to_average_embedding(text, tokenizer, gensim_embedding_model) for text in texts_train]
             X_test_emb = [text_to_average_embedding(text, tokenizer, gensim_embedding_model) for text in texts_test]
     
-        st.success('Завершено')
+        st.success('Success!')
     
-        st.header('Модель классификации отзывов на позитивные и негативные')
+        st.header('Model for classifying reviews into positive and negative')
     
-        with st.spinner('Создание и обучение модели'):
+        with st.spinner('Creating and training model'):
             
             target_size = max(train_label) + 1
             class_weights = calculate_weights(train_label, target_size)
@@ -305,14 +305,14 @@ def main():
     
             torch.save(model_label, 'model_label.pth')
     
-        st.success('Завершено')
+        st.success('Success!')
     
         fig2 = visualize_results(model_label, X_train_emb, X_test_emb, train_label, test_label, target_size=2)
         st.pyplot(fig2)
     
-        st.header('Модель классификации выставленного рейтинга')
+        st.header('Model for classifying reviews by rating')
     
-        with st.spinner('Создание и обучение модели'):
+        with st.spinner('Creating and training model'):
             
             target_size = max(train_rating) + 1
             class_weights = calculate_weights(train_rating, target_size)
@@ -325,7 +325,7 @@ def main():
     
             torch.save(model_rating, 'model_rating.pth')
     
-        st.success('Завершено')
+        st.success('Success!')
     
         fig3 = visualize_results(model_rating, X_train_emb, X_test_emb, train_rating, test_rating, target_size=10)
         st.pyplot(fig3)
@@ -334,7 +334,7 @@ def main():
 
     tokenizer, gensim_embedding_model, model_label, model_rating = model_training()
 
-    st.header('Введите отзыв на фильм')
+    st.header('Enter rewiew to movie')
     with st.form(key='my_form'):
         rewiew = st.text_input(label='')
         submit_button = st.form_submit_button(label='Submit')
