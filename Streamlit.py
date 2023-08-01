@@ -262,7 +262,8 @@ def main():
     st.title('Классификация отзывов')
 
     @st.cache_data
-    def loading():
+    def model_training():
+
         tokenizer = WordPunctTokenizer()
     
         with st.spinner('Распаковка архива с данными'):
@@ -270,12 +271,6 @@ def main():
             
         with st.spinner('Скачивание предобученных эмбеддингов'):  
             gensim_embedding_model = api.load('glove-twitter-200')
-            return tokenizer, gensim_embedding_model
-
-    tokenizer, gensim_embedding_model = loading()
-            
-    @st.cache_data
-    def model_training(tokenizer, gensim_embedding_model):
 
         st.header('Обработка данных')
     
@@ -332,9 +327,9 @@ def main():
         fig3 = visualize_results(model_rating, X_train_emb, X_test_emb, train_rating, test_rating, target_size=10)
         st.pyplot(fig3)
 
-        return model_label, model_rating
+        return tokenizer, gensim_embedding_model, model_label, model_rating
 
-    model_label, model_rating = model_training()
+    tokenizer, gensim_embedding_model, model_label, model_rating = model_training()
 
     st.header('Введите отзыв на фильм')
     with st.form(key='my_form'):
