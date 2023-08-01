@@ -8,7 +8,6 @@ from matplotlib import rcParams
 
 import wget
 import tarfile
-import patoolib
 
 from nltk.tokenize import WordPunctTokenizer
 import gensim.downloader as api
@@ -40,7 +39,7 @@ def extract_tar():
         #tar = tarfile.open(zip_file)
         #tar.extractall()
         #tar.close()
-        patoolib.extract_archive(zip_file)
+        shutil.unpack_archive(zip_file, './', 'rar')
 
 def load_data():
 
