@@ -15,10 +15,10 @@ def load_data():
 
     tokenizer = WordPunctTokenizer()
 
-    with st.spinner('Скачивание предобученных эмбеддингов'):
+    with st.spinner('Loading embedding model'):
         gensim_embedding_model = api.load('glove-twitter-200')
 
-    with st.spinner('Скачивание моделей'):
+    with st.spinner('Loading models'):
         
         model_label = 'model_label.pth'
         url = 'https://drive.google.com/uc?export=view&id=1OmxJYLqsfa6fU8IuHzdN_Z53BgolA6NW&confirm=t'
@@ -30,7 +30,7 @@ def load_data():
         wget.download(url, model_rating)
         model_rating = torch.load(model_rating)
 
-    st.success('Завершено')
+    st.success('Success!')
         
     return tokenizer, gensim_embedding_model, model_label, model_rating
 
@@ -76,11 +76,11 @@ def get_prediction(rewiew, tokenizer, gensim_embedding_model, model_label, model
 
 def main():
 
-    st.header('Скачивание данных')
+    st.header('Loading data')
 
     tokenizer, gensim_embedding_model, model_label, model_rating = load_data()
         
-    st.header('Введите отзыв на фильм')
+    st.header('Enter rewiew to movie')
     with st.form(key='my_form'):
         rewiew = st.text_input(label='')
         submit_button = st.form_submit_button(label='Submit')
