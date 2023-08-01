@@ -20,7 +20,7 @@ from sklearn.utils import class_weight
 import torch
 from torch import nn
 
-from sklearn.metrics import roc_auc_score, roc_curve, accuracy_score, confusion_matrix, ConfusionMatrixDisplay
+from sklearn.metrics import balanced_accuracy_score, confusion_matrix, ConfusionMatrixDisplay
 
 from IPython import display
 import matplotlib.pyplot as plt
@@ -170,7 +170,7 @@ def train_model(
 
         local_train_loss_history.append(loss.item())
         local_train_acc_history.append(
-            accuracy_score(
+            balanced_accuracy_score(
                 y_batch.to('cpu').detach().numpy(),
                 y_predicted.to('cpu').detach().numpy().argmax(axis=1)
             )
@@ -184,7 +184,7 @@ def train_model(
             predictions_val = model(X_val_torch)
             val_loss_history.append(loss_function(predictions_val, y_val_torch).to('cpu').detach().item())
 
-            acc_score_val = accuracy_score(y_val_torch.cpu().numpy(), predictions_val.to('cpu').detach().numpy().argmax(axis=1))
+            acc_score_val = balanced_accuracy_score(y_val_torch.cpu().numpy(), predictions_val.to('cpu').detach().numpy().argmax(axis=1))
             val_acc_history.append(acc_score_val)
 
     if show_plots:
