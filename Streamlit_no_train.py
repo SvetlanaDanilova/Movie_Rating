@@ -53,10 +53,10 @@ def text_to_average_embedding(text, tokenizer, gensim_embedding_model):
 
     return embedding_for_text
 
-def get_prediction(rewiew, tokenizer, gensim_embedding_model, model_label, model_rating):
+def get_prediction(review, tokenizer, gensim_embedding_model, model_label, model_rating):
 
-    rewiew = [rewiew]
-    data = tokenize(tokenizer, rewiew)
+    review = [review]
+    data = tokenize(tokenizer, review)
     data_emb = [text_to_average_embedding(text, tokenizer, gensim_embedding_model) for text in data]
     data_emb_torch = torch.Tensor(np.array(data_emb))
     
@@ -69,26 +69,26 @@ def get_prediction(rewiew, tokenizer, gensim_embedding_model, model_label, model
     rating = model_rating(data_emb_torch).detach().cpu().numpy().argmax(axis=1).item() + 1
 
     if label == 'pos' and rating <= 4 or label == 'neg' and rating >= 7:
-        st.markdown("It's complicated to analyse this rewiew")
+        st.markdown("It's complicated to analyse this review")
 
-    st.markdown('Rewiew label is  ' + label)
-    st.markdown('Rewiew rating is ' + str(rating))
+    st.markdown('Review label is  ' + label)
+    st.markdown('Review rating is ' + str(rating))
 
 def main():
 
-    st.title('Rewiew classification')
+    st.title('Review classification')
 
     st.header('Loading data')
 
     tokenizer, gensim_embedding_model, model_label, model_rating = load_data()
         
-    st.header('Enter rewiew to movie')
+    st.header('Enter review to movie')
     with st.form(key='my_form'):
-        rewiew = st.text_input(label='')
+        review = st.text_input(label='')
         submit_button = st.form_submit_button(label='Submit')
     
         if submit_button:
-            get_prediction(rewiew, tokenizer, gensim_embedding_model, model_label, model_rating)
+            get_prediction(review, tokenizer, gensim_embedding_model, model_label, model_rating)
     
 
 if __name__ == "__main__":
