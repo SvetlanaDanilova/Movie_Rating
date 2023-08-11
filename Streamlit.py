@@ -277,6 +277,8 @@ def main():
         with st.spinner('Loading embedding model'):  
             gensim_embedding_model = api.load('glove-twitter-200')
 
+        st.success('Success!')
+
         st.header('Data processing')
     
         with st.spinner('Data loading'):
