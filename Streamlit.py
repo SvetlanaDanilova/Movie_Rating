@@ -268,6 +268,8 @@ def main():
     def model_training():
 
         tokenizer = WordPunctTokenizer()
+
+        st.header('Data loading')
     
         with st.spinner('Extracting data archive'):
             extract_tar()
@@ -277,7 +279,7 @@ def main():
 
         st.header('Data processing')
     
-        with st.spinner('Загрузка данных'):
+        with st.spinner('Data loading'):
             train_data, train_label, train_rating, test_data, test_label, test_rating = load_data()
     
         with st.spinner('Tokenizing'):
